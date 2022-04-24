@@ -21,21 +21,23 @@ exports.postAddProduct = (req, res, next) => {
 exports.getEditProduct = (req, res, next) => {
   const editMode = req.query.edit;
   if (!editMode) {
-    return redirect("/");
+    return res.redirect("/");
   }
   const prodId = req.params.productId;
   Product.findById(prodId, (product) => {
     if (!product) {
       return res.redirect("/");
     }
-  });
-  res.render("admin/edit-product", {
-    pageTitle: "Edit Product",
-    path: "/admin/edit-product",
-    editing: editMode,
-    product: product,
+    res.render("admin/edit-product", {
+      pageTitle: "Edit Product",
+      path: "/admin/edit-product",
+      editing: editMode,
+      product: product,
+    });
   });
 };
+
+exports.postEditProduct = (req, res, next) => {};
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll((products) => {
