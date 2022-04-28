@@ -31,5 +31,3 @@ sequelize
   .catch((err) => {
     console.log(err);
   });
-
-app.listen(3000);
