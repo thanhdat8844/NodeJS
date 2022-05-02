@@ -1,15 +1,27 @@
 const mongodb = require("mongodb");
-const MongoCilent = mongodb.MongoClient;
+const MongoClient = mongodb.MongoClient;
+
+let _db;
+
 const mongoConnect = (callback) => {
-  MongoCilent.connect(
+  MongoClient.connect(
     "mongodb+srv://ThanhDat:Anhk0biet@cluster0.ppyhi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
   )
-    .then((cilent) => {
+    .then((client) => {
       console.log("Connected!");
-      callback(cilent);
+      _db = client.db();
+      callback();
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
-module.exports = mongoConnect;
+const getDb = () => {
+  if (_db) {
+    return _db;
+  }
+  throw "No database found!";
+};
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
