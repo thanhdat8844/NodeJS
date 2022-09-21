@@ -12,7 +12,7 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 const adminRoutes = require("./routes/admin");
-// const shopRoutes = require("./routes/shop");
+const shopRoutes = require("./routes/shop");
 // const Order = require("./models/order");
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,8 +28,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use("/admin", adminRoutes);
-// app.use(shopRoutes);
+app.use("/admin", adminRoutes);
+app.use(shopRoutes);
 
 app.use(errorController.get404);
 
