@@ -9,25 +9,27 @@ class Product {
     this.imageUrl = imageUrl;
     this._id = id;
   }
+
   save() {
     const db = getDb();
     let dbOp;
     if (this._id) {
-      //update the product
+      // Update the product
       dbOp = db
         .collection("products")
-        .updateOne({ _id: new mongodb.ObjectId(this._id) }, { set: this });
+        .updateOne({ _id: new mongodb.ObjectId(this._id) }, { $set: this });
     } else {
       dbOp = db.collection("products").insertOne(this);
     }
     return dbOp
-      .collection("products")
-      .insertOne(this)
       .then((result) => {
         console.log(result);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }
+
   static fetchAll() {
     const db = getDb();
     return db
@@ -38,8 +40,11 @@ class Product {
         console.log(products);
         return products;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }
+
   static findById(prodId) {
     const db = getDb();
     return db
